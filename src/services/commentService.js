@@ -18,15 +18,17 @@ const Comment = {
     return axiosInstance.get(`/comments?${queryString}`);
   },
   getComments2: async (queryParams = {}) => {
-    const { data: comments } = await axiosInstance.get(`/comments`).catch((err) => {
-      throw err;
-    });
+    const { data: comments } = await axiosInstance
+      .get(`/comments`)
+      .catch((err) => {
+        throw err;
+      });
 
     // filter comment
     const filteredComments = comments.filter((post) => {
       return Object.entries(queryParams).every(([key, value]) => {
         // for body use includes
-        if (key === 'body') {
+        if (typeof post[key] === 'string') {
           return post[key].includes(value);
         }
         return `${post[key]}` === `${value}`;
