@@ -4,7 +4,7 @@ const { getAllPosts } = require('../services/postService');
 module.exports = {
   getTopPosts: async (req, res) => {
     try {
-      const [{ data: posts }, { data: comments }] = await Promise.all([
+      let [{ data: posts }, { data: comments }] = await Promise.all([
         getAllPosts(),
         getComments(),
       ]);
@@ -35,7 +35,6 @@ module.exports = {
       });
       return res.json({ data: sortedPosts });
     } catch (err) {
-      console.error(err);
       return res.status(400).json({
         error: true,
         message: err.message,
