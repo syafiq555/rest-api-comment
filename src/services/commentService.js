@@ -18,17 +18,9 @@ const Comment = {
     return axiosInstance.get(`/comments?${queryString}`);
   },
   getComments2: async (queryParams = {}) => {
-    // get only valid params
-    const validQueryParams = Object.entries(queryParams).reduce((acc, [key, value]) => {
-      if (validKeys.includes(key)) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
-
     const commentResponse = axiosInstance.get(`/comments`);
     // if valid query params empty return
-    if (!Object.values(validQueryParams).length) {
+    if (!Object.values(queryParams).length) {
       return commentResponse;
     }
 
@@ -38,7 +30,7 @@ const Comment = {
 
     // filter comment
     const filteredComments = comments.filter((post) => {
-      return Object.entries(validQueryParams).every(([key, value]) => {
+      return Object.entries(queryParams).every(([key, value]) => {
         if (key === 'body') {
           return post[key].includes(value);
         }
