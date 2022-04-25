@@ -17,7 +17,7 @@ const Comment = {
     const queryString = mapQueryParams(validQueryParams);
     return axiosInstance.get(`/comments?${queryString}`);
   },
-  getComments2: async () => {
+  getComments2: () => {
     return axiosInstance.get(`/comments`);
   },
 };
