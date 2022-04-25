@@ -1,3 +1,9 @@
-const Comment = {};
+const { axiosInstance } = require('../api');
 
-module.exports = Comment
+const Comment = {
+  getCommentByPost: (idPost) => {
+    return axiosInstance.get(`/posts/${idPost}/comments`);
+  },
+};
+
+module.exports = Comment;

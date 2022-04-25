@@ -1,3 +1,7 @@
-const Post = {};
+const { axiosInstance } = require('../api');
 
-module.exports = Post
+module.exports = {
+  getAllPosts: () => {
+    return axiosInstance.get('/posts');
+  },
+};
