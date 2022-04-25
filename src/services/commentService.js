@@ -18,13 +18,13 @@ const Comment = {
     return axiosInstance.get(`/comments?${queryString}`);
   },
   getComments2: async (queryParams = {}) => {
-    let validQueryParams = {};
     // get only valid params
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const validQueryParams = Object.entries(queryParams).reduce((acc, [key, value]) => {
       if (validKeys.includes(key)) {
-        validQueryParams[key] = value;
+        acc[key] = value;
       }
-    });
+      return acc;
+    }, {});
 
     const commentResponse = axiosInstance.get(`/comments`);
     // if valid query params empty return
