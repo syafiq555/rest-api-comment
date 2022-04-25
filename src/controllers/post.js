@@ -21,7 +21,7 @@ module.exports = {
         postsWithPostId[firstPost.postId].number_of_comments = noOfComments;
       });
       const sortedPosts = Object.values(postsWithPostId).sort((a, b) => {
-        return a.number_of_comments - b.number_of_comments;
+        return b.number_of_comments - a.number_of_comments;
       });
       return res.json({ data: sortedPosts });
     } catch (err) {
