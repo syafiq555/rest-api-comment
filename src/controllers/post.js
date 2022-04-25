@@ -1,30 +1,36 @@
-const { getCommentByPost } = require('../services/comment');
+const { getComments } = require('../services/comment');
 const { getAllPosts } = require('../services/post');
 
 module.exports = {
   getTopPosts: async (req, res) => {
     try {
-      const allPosts = await getAllPosts();
-      const posts = allPosts.data;
-      const postsWithPostId = {};
-      const postCommentsPromises = posts.map((post) => {
-        postsWithPostId[post.id] = {
+      const [{ data: posts }, { data: comments }] = await Promise.all([
+        getAllPosts(),
+        getComments(),
+      ]);
+
+      const unsortedPost = posts.map((post) => {
+        const previousComment = comments;
+        const commentCurrentPost = comments.filter(({ postId }, index) => {
+          if (postId === post.id) {
+            // remove this comment from all comments as 1 comment for only 1 post, no need already so comments will be reduced for next iteratio
+            delete previousComment[index];
+            return true;
+          }
+          return false;
+        });
+        comments = previousComment;
+
+        return {
           post_id: post.id,
           post_title: post.title,
           post_body: post.body,
+          total_number_of_comments: commentCurrentPost.length,
         };
-        return getCommentByPost(post.id);
       });
-      const allPostComment = await Promise.all(
-        Object.values(postCommentsPromises)
-      );
-      allPostComment.forEach((commentResponse) => {
-        const data = commentResponse.data;
-        const [firstPost] = data;
-        postsWithPostId[firstPost.postId].total_number_of_comments =
-          data.length;
-      });
-      const sortedPosts = Object.values(postsWithPostId).sort((a, b) => {
+
+      // sort by total_number_of_comments
+      const sortedPosts = Object.values(unsortedPost).sort((a, b) => {
         return b.total_number_of_comments - a.total_number_of_comments;
       });
       return res.json({ data: sortedPosts });
