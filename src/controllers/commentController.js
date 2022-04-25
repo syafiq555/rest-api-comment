@@ -5,8 +5,18 @@ const {
 
 const getComments = async (req, res) => {
   try {
-    const comments = await getComments_(req.query);
-    return res.json({ data: comments.data });
+    const { data: comments } = await getComments_();
+    // filter comment
+    const filteredComments = comments.filter((post) => {
+      return Object.entries(req.query).every(([key, value]) => {
+        // for body use includes
+        if (typeof post[key] === 'string') {
+          return post[key].includes(value);
+        }
+        return `${post[key]}` === `${value}`;
+      });
+    });
+    return res.json({ data: filteredComments });
   } catch (err) {
     return res.status(400).json({
       error: true,

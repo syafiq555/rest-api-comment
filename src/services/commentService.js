@@ -17,24 +17,8 @@ const Comment = {
     const queryString = mapQueryParams(validQueryParams);
     return axiosInstance.get(`/comments?${queryString}`);
   },
-  getComments2: async (queryParams = {}) => {
-    const { data: comments } = await axiosInstance
-      .get(`/comments`)
-      .catch((err) => {
-        throw err;
-      });
-
-    // filter comment
-    const filteredComments = comments.filter((post) => {
-      return Object.entries(queryParams).every(([key, value]) => {
-        // for body use includes
-        if (typeof post[key] === 'string') {
-          return post[key].includes(value);
-        }
-        return `${post[key]}` === `${value}`;
-      });
-    });
-    return { data: filteredComments };
+  getComments2: async () => {
+    return axiosInstance.get(`/comments`);
   },
 };
 
