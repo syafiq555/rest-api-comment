@@ -9,7 +9,6 @@ const Comment = {
   },
   getComments: (queryParams = {}) => {
     let validQueryParams = {};
-    const validKeys = ['postId', 'id', 'name', 'email'];
     Object.entries(queryParams).forEach(([key, value]) => {
       if (validKeys.includes(key)) {
         validQueryParams[key] = value;
