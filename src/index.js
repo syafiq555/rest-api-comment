@@ -1,6 +1,7 @@
 const express = require('express');
 
-const { getTopPosts } = require('./controllers/comments');
+const { getComments } = require('./controllers/comment');
+const { getTopPosts } = require('./controllers/post');
 
 const app = express();
 const port = 3000;
@@ -10,7 +11,8 @@ const axiosInstance = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com/',
 });
 
-app.get('/comments/top_posts', getTopPosts);
+app.get('/posts', getTopPosts);
+app.get('/comments', getComments);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

@@ -1,3 +1,14 @@
+# How to run
+1. git clone this repo
+2. npm install
+3. npm start
+
+Available endpoint:
+
+	- http://localhost:3000/posts - question 1
+	- http://localhost:3000/comments - question 1
+
+# Questions
 ## Build a REST API
 
 
