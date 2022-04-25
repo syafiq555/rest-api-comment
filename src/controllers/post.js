@@ -21,9 +21,8 @@ module.exports = {
       allPostComment.forEach((commentResponse) => {
         const data = commentResponse.data;
         const [firstPost] = data;
-        const noOfComments = data.length;
         postsWithPostId[firstPost.postId].total_number_of_comments =
-          noOfComments;
+          data.length;
       });
       const sortedPosts = Object.values(postsWithPostId).sort((a, b) => {
         return b.total_number_of_comments - a.total_number_of_comments;

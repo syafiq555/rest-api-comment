@@ -14,7 +14,6 @@ const Comment = {
       }
     });
     const queryString = mapQueryParams(validQueryParams);
-    console.log(queryString);
     return axiosInstance.get(`/comments?${queryString}`);
   },
 };
