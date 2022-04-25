@@ -8,13 +8,7 @@ const Comment = {
     return axiosInstance.get(`/posts/${idPost}/comments`);
   },
   getComments: (queryParams = {}) => {
-    let validQueryParams = {};
-    Object.entries(queryParams).forEach(([key, value]) => {
-      if (validKeys.includes(key)) {
-        validQueryParams[key] = value;
-      }
-    });
-    const queryString = mapQueryParams(validQueryParams);
+    const queryString = mapQueryParams(queryParams);
     return axiosInstance.get(`/comments?${queryString}`);
   },
   getComments2: () => {
