@@ -8,7 +8,11 @@ module.exports = {
       const posts = allPosts.data;
       const postsWithPostId = {};
       const postCommentsPromises = posts.map((post) => {
-        postsWithPostId[post.id] = post;
+        postsWithPostId[post.id] = {
+          post_id: post.id,
+          post_title: post.title,
+          post_body: post.body,
+        };
         return getCommentByPost(post.id);
       });
       const allPostComment = await Promise.all(
@@ -18,10 +22,11 @@ module.exports = {
         const data = commentResponse.data;
         const [firstPost] = data;
         const noOfComments = data.length;
-        postsWithPostId[firstPost.postId].number_of_comments = noOfComments;
+        postsWithPostId[firstPost.postId].total_number_of_comments =
+          noOfComments;
       });
       const sortedPosts = Object.values(postsWithPostId).sort((a, b) => {
-        return b.number_of_comments - a.number_of_comments;
+        return b.total_number_of_comments - a.total_number_of_comments;
       });
       return res.json({ data: sortedPosts });
     } catch (err) {
