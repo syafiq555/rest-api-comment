@@ -1,7 +1,7 @@
 const express = require('express');
 
-const { getComments } = require('./controllers/comment');
-const { getTopPosts } = require('./controllers/post');
+const { getComments } = require('./controllers/commentController');
+const { getTopPosts } = require('./controllers/postController');
 
 const app = express();
 const port = 3000;

@@ -1,5 +1,5 @@
-const { getComments } = require('../services/comment');
-const { getAllPosts } = require('../services/post');
+const { getComments } = require('../services/commentService');
+const { getAllPosts } = require('../services/postService');
 
 module.exports = {
   getTopPosts: async (req, res) => {

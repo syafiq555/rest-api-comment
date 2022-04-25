@@ -1,7 +1,7 @@
 const {
   // getComments: getComments_,
   getComments2: getComments_,
-} = require('../services/comment');
+} = require('../services/commentService');
 
 const getComments = async (req, res) => {
   try {
