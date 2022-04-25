@@ -6,7 +6,7 @@
 Available endpoint:
 
 	- http://localhost:3000/posts - question 1
-	- http://localhost:3000/comments - question 1
+	- http://localhost:3000/comments - question 2
 
 # Questions
 ## Build a REST API
