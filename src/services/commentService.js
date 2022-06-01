@@ -1,8 +1,6 @@
 const { axiosInstance } = require('../api');
 const { mapQueryParams } = require('../utils');
 
-const validKeys = ['postId', 'id', 'name', 'email', 'body'];
-
 const Comment = {
   getCommentByPost: (idPost) => {
     return axiosInstance.get(`/posts/${idPost}/comments`);

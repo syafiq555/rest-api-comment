@@ -2,7 +2,7 @@ const { getComments } = require('../services/commentService');
 const { getAllPosts } = require('../services/postService');
 
 module.exports = {
-  getTopPosts: async (req, res) => {
+  getTopPosts: async (_req, res) => {
     try {
       let [{ data: posts }, { data: comments }] = await Promise.all([
         getAllPosts(),
@@ -10,16 +10,19 @@ module.exports = {
       ]);
 
       const unsortedPost = posts.map((post) => {
+        // put to another variable, to remove the comment after used
         const previousComment = comments;
+        // filter and remove comments after used to reduce iteration
         const commentCurrentPost = comments.filter(({ postId }, index) => {
           if (postId === post.id) {
             // reduce the number of iteration
-            // remove this comment from all comments as 1 comment for only 1 post, no need already so comments will be reduced for next iteratio
+            // remove this comment from all comments as 1 comment for only 1 post, no need already so comments will be reduced for next iteration
             delete previousComment[index];
             return true;
           }
           return false;
         });
+        // assign the filtered comments to the original
         comments = previousComment;
 
         return {
@@ -31,10 +34,9 @@ module.exports = {
       });
 
       // sort by total_number_of_comments
-      const sortedPosts = Object.values(unsortedPost).sort((a, b) => {
+      return res.json({ data: Object.values(unsortedPost).sort((a, b) => {
         return b.total_number_of_comments - a.total_number_of_comments;
-      });
-      return res.json({ data: sortedPosts });
+      }) });
     } catch (err) {
       return res.status(400).json({
         error: true,
