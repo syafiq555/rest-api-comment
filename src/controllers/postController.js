@@ -13,6 +13,7 @@ module.exports = {
         const previousComment = comments;
         const commentCurrentPost = comments.filter(({ postId }, index) => {
           if (postId === post.id) {
+            // reduce the number of iteration
             // remove this comment from all comments as 1 comment for only 1 post, no need already so comments will be reduced for next iteratio
             delete previousComment[index];
             return true;
