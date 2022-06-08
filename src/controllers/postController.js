@@ -9,27 +9,18 @@ module.exports = {
         getComments(),
       ]);
 
-      const unsortedPost = posts.map((post) => {
-        // put to another variable, to remove the comment after used
-        const previousComment = comments;
-        // filter and remove comments after used to reduce iteration
-        const commentCurrentPost = comments.filter(({ postId }, index) => {
-          if (postId === post.id) {
-            // reduce the number of iteration
-            // remove this comment from all comments as 1 comment for only 1 post, no need already so comments will be reduced for next iteration
-            delete previousComment[index];
-            return true;
-          }
-          return false;
-        });
-        // assign the filtered comments to the original
-        comments = previousComment;
+      let hashedComments = {};
 
+      for (const comment of comments) {
+        hashedComments[comment.postId] = (hashedComments[comment.postId] ?? 0) + 1
+      }
+
+      const unsortedPost = posts.map((post) => {
         return {
           post_id: post.id,
           post_title: post.title,
           post_body: post.body,
-          total_number_of_comments: commentCurrentPost.length,
+          total_number_of_comments: hashedComments[post.id],
         };
       });
 
